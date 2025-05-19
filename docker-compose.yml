@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  mongo: { image: mongo:6.0, container_name: mongo, environment: { MONGO_INITDB_DATABASE: fleet }, volumes: [ mongo_data:/data/db ], ports: [ "27017:27017" ] }
+  zookeeper: { image: bitnami/zookeeper:3.8, environment: [ ALLOW_ANONYMOUS_LOGIN=yes ], ports: [ "2181:2181" ] }
+  kafka:
+    image: bitnami/kafka:3.5
+    environment: [ KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181, ALLOW_PLAINTEXT_LISTENER=yes, KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 ]
+    depends_on: [ zookeeper ]
+    ports: [ "9092:9092" ]
+  driver-service:
+    build: ./driver-service
+    environment: [ MONGO_URL=mongodb://mongo:27017/fleet, KAFKA_BROKER=kafka:9092 ]
+    depends_on: [ mongo, kafka ]
+    ports: [ "3001:3000" ]
+  routing-service:
+    build: ./routing-service
+    environment: [ KAFKA_BROKER=kafka:9092 ]
+    depends_on: [ kafka ]
+    ports: [ "3002:3000" ]
+  frontend:
+    build: ./frontend
+    depends_on:
+      - driver-service
+    ports:
+      - "4200:80"
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    volumes: [ ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml ]
+    ports: [ "9090:9090" ]
+    depends_on: [ driver-service, routing-service ]
+  grafana: { image: grafana/grafana:10.4.0, ports: [ "3000:3000" ], depends_on: [ prometheus ] }
+volumes: { mongo_data: {} }

@@ -1,0 +1,5 @@
+<div style="padding:1rem">
+  <h1>{{title}}</h1>
+  <h2>Drivers</h2><ul><li *ngFor="let d of drivers">{{d.name}} ({{d.licenseNumber}})</li></ul>
+  <h2>Trucks</h2><ul><li *ngFor="let t of trucks">{{t.plate}} - {{t.model}} ({{t.capacityTon}} t)</li></ul>
+</div>
