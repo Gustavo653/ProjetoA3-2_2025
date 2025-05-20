@@ -1,0 +1,15 @@
+<h2>Caminhões</h2>
+<form (submit)="create()">
+  <input [(ngModel)]="truck.plate" name="plate" placeholder="Placa" required />
+  <input [(ngModel)]="truck.model" name="model" placeholder="Modelo" required />
+  <input [(ngModel)]="truck.capacityKg" name="capacityKg" placeholder="Capacidade (kg)" />
+  <button type="submit">Salvar</button>
+  <button type="button" *ngIf="editing" (click)="cancel()">Cancelar</button>
+</form>
+<ul>
+  <li *ngFor="let t of trucks">
+    {{t.plate}} - {{t.model}} ({{t.capacityKg || 'N/A'}}kg)
+    <button (click)="edit(t)">Editar</button>
+    <button (click)="delete(t._id)">Excluir</button>
+  </li>
+</ul>

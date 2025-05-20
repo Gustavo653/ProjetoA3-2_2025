@@ -1,5 +1,9 @@
-<div style="padding:1rem">
-  <h1>{{title}}</h1>
-  <h2>Drivers</h2><ul><li *ngFor="let d of drivers">{{d.name}} ({{d.licenseNumber}})</li></ul>
-  <h2>Trucks</h2><ul><li *ngFor="let t of trucks">{{t.plate}} - {{t.model}} ({{t.capacityTon}} t)</li></ul>
+<nav>
+  <a routerLink="/drivers" routerLinkActive="active">Motoristas</a>
+  <a routerLink="/trucks" routerLinkActive="active">Caminhões</a>
+  <a routerLink="/deliveries" routerLinkActive="active">Entregas</a>
+  <span *ngIf="loggedIn()"> | <a (click)="logout()" style="cursor:pointer">Sair</a></span>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
 </div>

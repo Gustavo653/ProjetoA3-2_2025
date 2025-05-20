@@ -1,0 +1,15 @@
+<h2>Motoristas</h2>
+<form (submit)="create()">
+  <input [(ngModel)]="driver.name" name="name" placeholder="Nome" required />
+  <input [(ngModel)]="driver.licenseNumber" name="licenseNumber" placeholder="CNH" required />
+  <input [(ngModel)]="driver.phone" name="phone" placeholder="Telefone" />
+  <button type="submit">Salvar</button>
+  <button type="button" *ngIf="editing" (click)="cancel()">Cancelar</button>
+</form>
+<ul>
+  <li *ngFor="let d of drivers">
+    {{d.name}} - {{d.licenseNumber}} <br/> {{d.phone || ''}}
+    <button (click)="edit(d)">Editar</button>
+    <button (click)="delete(d._id)">Excluir</button>
+  </li>
+</ul>

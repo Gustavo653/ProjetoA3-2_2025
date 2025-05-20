@@ -1,5 +1,5 @@
 {
-  "name": "driver-service",
+  "name": "route-service",
   "version": "1.1.0",
   "main": "dist/server.js",
   "type": "module",
