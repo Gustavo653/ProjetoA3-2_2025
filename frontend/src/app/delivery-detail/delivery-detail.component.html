@@ -1,0 +1,7 @@
+<mat-card *ngIf="delivery">
+  <h2>Detalhes da Entrega</h2>
+  <p><strong>Origem:</strong> {{delivery.origin}}</p>
+  <p><strong>Destino:</strong> {{delivery.destination}}</p>
+  <p><strong>Status:</strong> {{delivery.status}}</p>
+  <p><strong>Caminhão:</strong> {{delivery.truckId?.plate}}</p>
+</mat-card>

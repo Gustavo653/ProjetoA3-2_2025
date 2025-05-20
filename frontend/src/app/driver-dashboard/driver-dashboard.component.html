@@ -1,0 +1,21 @@
+
+<ng-container *ngIf="!loading; else loadTpl">
+  <mat-card *ngIf="delivery; else noDeliveries">
+    <h2>Próxima Entrega</h2>
+    <p><strong>Origem:</strong> {{delivery.origin}}</p>
+    <p><strong>Destino:</strong> {{delivery.destination}}</p>
+    <p><strong>Status:</strong> {{delivery.status}}</p>
+
+    <button mat-raised-button color="primary" (click)="update('en_route')">Iniciar rota</button>
+    <button mat-raised-button color="accent" (click)="update('delivered')">Chegou ao destino</button>
+    <button mat-raised-button color="warn" (click)="update('problem')">Problema ocorrido</button>
+  </mat-card>
+</ng-container>
+
+<ng-template #loadTpl>
+  <p>Carregando...</p>
+</ng-template>
+
+<ng-template #noDeliveries>
+  <p>Não há entregas atribuídas.</p>
+</ng-template>

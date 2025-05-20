@@ -1,0 +1,9 @@
+
+<mat-card>
+  <h2>Painel de Monitoramento</h2>
+  <mat-list>
+    <mat-list-item *ngFor="let d of deliveries">
+      {{d.origin}} ➔ {{d.destination}} — {{d.status}}
+    </mat-list-item>
+  </mat-list>
+</mat-card>

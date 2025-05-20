@@ -1,10 +1,11 @@
+
 <mat-card class="login-card">
   <h1>Plataforma de Cargas</h1>
 
   <form (submit)="onSubmit()" class="login-form">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Usuário</mat-label>
-      <input matInput [(ngModel)]="username" name="username" required />
+      <mat-label>Matrícula ou CPF</mat-label>
+      <input matInput [(ngModel)]="identifier" name="identifier" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">

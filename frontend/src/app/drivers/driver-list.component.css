@@ -1,16 +1,16 @@
+
 .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  align-items: end;
 }
 
-.button-row {
-    grid-column: 1/-1;
-    display: flex;
-    gap: .5rem
+button.full {
+  height: 56px;
 }
 
-.spacer {
-    flex: 1 1 auto
+table.full {
+  width: 100%;
 }

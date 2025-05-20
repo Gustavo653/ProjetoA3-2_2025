@@ -1,0 +1,9 @@
+
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.table-actions button {
+  margin-right: .25rem;
+}

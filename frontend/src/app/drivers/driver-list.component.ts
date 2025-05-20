@@ -1,49 +1,60 @@
+
 import { Component, OnInit } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../services/api.service';
-import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { ApiService } from '../services/api.service';
+
+interface Driver {
+  _id?: string;
+  name: string;
+  licenseNumber: string;
+  cpf?: string;
+  registrationNumber?: string;
+  phone?: string;
+  password?: string;
+}
 
 @Component({
   selector: 'driver-list',
   standalone: true,
   imports: [
-    NgFor, NgIf, FormsModule,
-    MatCardModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatListModule, MatIconModule
+    CommonModule, FormsModule,
+    MatTableModule, MatButtonModule,
+    MatFormFieldModule, MatInputModule, MatIconModule
   ],
   templateUrl: './driver-list.component.html',
   styleUrls: ['./driver-list.component.css']
 })
 export class DriverListComponent implements OnInit {
-  drivers: any[] = [];
-  driver: any = {};
-  editing = false;
+  displayedColumns = ['name','license','cpf','registration','phone','actions'];
+  drivers: Driver[] = [];
+
+  newDriver: Driver = {
+    name: '', licenseNumber: '', cpf: '', registrationNumber: '', phone: '', password: 'motorista'
+  };
 
   constructor(private api: ApiService) {}
 
-  async ngOnInit() { this.drivers = await this.api.getDrivers(); }
+  async ngOnInit(){ this.drivers = await this.api.getDrivers(); }
 
-  async save() {
-    if (this.editing) {
-      await this.api.updateDriver(this.driver._id, this.driver);
-    } else {
-      await this.api.addDriver(this.driver);
-    }
-    this.driver = {};
-    this.editing = false;
-    this.drivers = await this.api.getDrivers();
+  async save(){
+    if(!this.newDriver.name || !this.newDriver.licenseNumber) return;
+    const created = await this.api.addDriver(this.newDriver);
+    this.drivers.push(created as any);
+    this.resetForm();
   }
 
-  edit(d: any) { this.driver = { ...d }; this.editing = true; }
-  cancel() { this.driver = {}; this.editing = false; }
-  async delete(id: string) {
+  resetForm(){
+    this.newDriver = { name:'', licenseNumber:'', cpf:'', registrationNumber:'', phone:'', password:'motorista' };
+  }
+
+  async remove(id:string){
     await this.api.deleteDriver(id);
-    this.drivers = await this.api.getDrivers();
+    this.drivers = this.drivers.filter(d=>d._id!==id);
   }
 }

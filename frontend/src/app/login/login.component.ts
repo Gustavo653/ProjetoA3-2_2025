@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
@@ -18,13 +19,13 @@ import { MatCardModule } from '@angular/material/card';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username = '';
+  identifier = '';
   password = '';
   error = '';
   constructor(private auth: AuthService) { }
 
   async onSubmit() {
-    try { await this.auth.login(this.username, this.password); }
+    try { await this.auth.login(this.identifier, this.password); }
     catch { this.error = 'Falha no login'; }
   }
 }
