@@ -1,0 +1,14 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.button-row {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: .5rem;
+}
+
+.spacer { flex: 1 1 auto; }

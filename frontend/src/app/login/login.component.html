@@ -1,6 +1,18 @@
-<h2>Login</h2>
-<form (submit)="onSubmit()">
-  <input [(ngModel)]="username" name="username" placeholder="Usuário" required />
-  <input [(ngModel)]="password" name="password" type="password" placeholder="Senha" required />
-  <button type="submit">Entrar</button>
-</form>
+<mat-card class="login-card">
+  <h1>Plataforma de Cargas</h1>
+
+  <form (submit)="onSubmit()" class="login-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Usuário</mat-label>
+      <input matInput [(ngModel)]="username" name="username" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" [(ngModel)]="password" name="password" required />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width">Entrar</button>
+    <p *ngIf="error" class="error">{{ error }}</p>
+  </form>
+</mat-card>

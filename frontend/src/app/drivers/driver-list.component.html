@@ -1,15 +1,40 @@
-<h2>Motoristas</h2>
-<form (submit)="create()">
-  <input [(ngModel)]="driver.name" name="name" placeholder="Nome" required />
-  <input [(ngModel)]="driver.licenseNumber" name="licenseNumber" placeholder="CNH" required />
-  <input [(ngModel)]="driver.phone" name="phone" placeholder="Telefone" />
-  <button type="submit">Salvar</button>
-  <button type="button" *ngIf="editing" (click)="cancel()">Cancelar</button>
-</form>
-<ul>
-  <li *ngFor="let d of drivers">
-    {{d.name}} - {{d.licenseNumber}} <br/> {{d.phone || ''}}
-    <button (click)="edit(d)">Editar</button>
-    <button (click)="delete(d._id)">Excluir</button>
-  </li>
-</ul>
+<mat-card>
+  <h2>Motoristas</h2>
+
+  <form (submit)="save()" class="form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput [(ngModel)]="driver.name" name="name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>CNH</mat-label>
+      <input matInput [(ngModel)]="driver.license" name="license" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Telefone</mat-label>
+      <input matInput [(ngModel)]="driver.phone" name="phone" />
+    </mat-form-field>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit">
+        {{ editing ? 'Atualizar' : 'Salvar' }}
+      </button>
+      <button *ngIf="editing" mat-button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <mat-list>
+    <mat-list-item *ngFor="let d of drivers">
+      {{ d.name }} – CNH: {{ d.license }}
+      <span class="spacer"></span>
+      <button mat-icon-button color="primary" (click)="edit(d)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="delete(d._id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

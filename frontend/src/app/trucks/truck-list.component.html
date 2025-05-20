@@ -1,15 +1,45 @@
-<h2>Caminhões</h2>
-<form (submit)="create()">
-  <input [(ngModel)]="truck.plate" name="plate" placeholder="Placa" required />
-  <input [(ngModel)]="truck.model" name="model" placeholder="Modelo" required />
-  <input [(ngModel)]="truck.capacityKg" name="capacityKg" placeholder="Capacidade (kg)" />
-  <button type="submit">Salvar</button>
-  <button type="button" *ngIf="editing" (click)="cancel()">Cancelar</button>
-</form>
-<ul>
-  <li *ngFor="let t of trucks">
-    {{t.plate}} - {{t.model}} ({{t.capacityKg || 'N/A'}}kg)
-    <button (click)="edit(t)">Editar</button>
-    <button (click)="delete(t._id)">Excluir</button>
-  </li>
-</ul>
+<mat-card>
+  <h2>Caminhões</h2>
+
+  <form (submit)="save()" class="form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>Placa</mat-label>
+      <input matInput [(ngModel)]="truck.plate" name="plate" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Modelo</mat-label>
+      <input matInput [(ngModel)]="truck.model" name="model" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ano</mat-label>
+      <input matInput type="number" [(ngModel)]="truck.year" name="year" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Capacidade (kg)</mat-label>
+      <input matInput type="number" [(ngModel)]="truck.capacity" name="capacity" />
+    </mat-form-field>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit">
+        {{ editing ? 'Atualizar' : 'Salvar' }}
+      </button>
+      <button *ngIf="editing" mat-button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <mat-list>
+    <mat-list-item *ngFor="let t of trucks">
+      {{ t.plate }} – {{ t.model }} ({{ t.year }})
+      <span class="spacer"></span>
+      <button mat-icon-button color="primary" (click)="edit(t)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="delete(t._id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

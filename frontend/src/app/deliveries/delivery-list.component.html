@@ -1,21 +1,62 @@
-<h2>Entregas</h2>
-<form (submit)="create()">
-  <input [(ngModel)]="delivery.driverId" name="driverId" placeholder="ID Motorista" required />
-  <input [(ngModel)]="delivery.truckId" name="truckId" placeholder="ID Caminhão" required />
-  <input [(ngModel)]="delivery.origin" name="origin" placeholder="Origem" required />
-  <input [(ngModel)]="delivery.destination" name="destination" placeholder="Destino" required />
-  <select [(ngModel)]="delivery.status" name="status">
-    <option value="pending">Pendente</option>
-    <option value="en_route">Em rota</option>
-    <option value="delivered">Entregue</option>
-  </select>
-  <button type="submit">Salvar</button>
-  <button type="button" *ngIf="editing" (click)="cancel()">Cancelar</button>
-</form>
-<ul>
-  <li *ngFor="let d of deliveries">
-    {{d.origin}} ➔ {{d.destination}} ({{d.status}})
-    <button (click)="edit(d)">Editar</button>
-    <button (click)="delete(d._id)">Excluir</button>
-  </li>
-</ul>
+<mat-card>
+  <h2>Entregas</h2>
+
+  <form (submit)="create()" class="form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>Motorista</mat-label>
+      <mat-select [(ngModel)]="delivery.driverId" name="driverId" required>
+        <mat-option *ngFor="let d of drivers" [value]="d._id">
+          {{ d.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Caminhão</mat-label>
+      <mat-select [(ngModel)]="delivery.truckId" name="truckId" required>
+        <mat-option *ngFor="let t of trucks" [value]="t._id">
+          {{ t.plate }} – {{ t.model }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Origem</mat-label>
+      <input matInput [(ngModel)]="delivery.origin" name="origin" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Destino</mat-label>
+      <input matInput [(ngModel)]="delivery.destination" name="destination" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="delivery.status" name="status">
+        <mat-option value="pending">Pendente</mat-option>
+        <mat-option value="en_route">Em rota</mat-option>
+        <mat-option value="delivered">Entregue</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit">
+        {{ editing ? 'Atualizar' : 'Salvar' }}
+      </button>
+      <button *ngIf="editing" mat-button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <mat-list>
+    <mat-list-item *ngFor="let d of deliveries">
+      {{ d.origin }} ➔ {{ d.destination }} ({{ d.status }})
+      <span class="spacer"></span>
+      <button mat-icon-button color="primary" (click)="edit(d)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="delete(d._id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
