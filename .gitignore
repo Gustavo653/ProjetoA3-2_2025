@@ -1,2 +1,4 @@
-﻿frontend/node_modules
+frontend/node_modules
 frontend/.angular
+driver-service/node_modules
+route-service/node_modules

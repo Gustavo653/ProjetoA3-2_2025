@@ -26,9 +26,11 @@ app.get('/metrics', async (_req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
 mongoose.connect(process.env.MONGO_URL!)
   .then(() => {
     console.log('Driver DB connected');
     app.listen(PORT, () => console.log(`Driver service listening on ${PORT}`));
+    import('./rabbitmq.js').then(m => m.startDeliveryConsumer());
   })
   .catch(err => console.error(err));

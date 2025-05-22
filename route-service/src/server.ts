@@ -4,7 +4,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import deliveriesRouter from './routes/deliveries.js';
 import authRouter from './routes/auth.js';
-import { consumeDeliveryQueue } from './rabbitmq.js';
 import { collectDefaultMetrics, Registry } from 'prom-client';
 import { verifyToken } from './middleware/auth.js';
 
@@ -25,10 +24,12 @@ app.get('/metrics', async (_req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-mongoose.connect(process.env.MONGO_URL!)
+mongoose
+  .connect(process.env.MONGO_URL!)
   .then(() => {
-    console.log('Route DB connected');
-    app.listen(PORT, () => console.log(`Route service listening on ${PORT}`));
-    consumeDeliveryQueue();
+    console.log('Route-service DB connected');
+    app.listen(PORT, () =>
+      console.log(`Route-service listening on port ${PORT}`),
+    );
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error('Mongo connection error:', err));

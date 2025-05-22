@@ -1,13 +1,12 @@
 
 import { Router } from 'express';
 import Delivery from '../models/delivery.js';
-import { publishDeliveryCreated } from '../rabbitmq.js';
+import { publishEvent } from '../rabbitmq.js';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { status } = req.query;
-  const filter:any = status ? { status } : {};
+  const filter = req.query.status ? { status: req.query.status } : {};
   res.json(await Delivery.find(filter));
 });
 
@@ -18,15 +17,22 @@ router.get('/next/:driverId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const delivery = await Delivery.create(req.body);
-  await publishDeliveryCreated(delivery);
+  await publishEvent('delivery.created', delivery);
   res.status(201).json(delivery);
 });
 
-router.put('/:id', async (req, res) => res.json(await Delivery.findByIdAndUpdate(req.params.id, req.body, { new: true })));
+router.put('/:id', async (req, res) => {
+  const updated = await Delivery.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+});
 
-router.put('/:id/status', async (req,res)=>{
+router.put('/:id/status', async (req, res) => {
   const { status } = req.body;
-  res.json(await Delivery.findByIdAndUpdate(req.params.id,{status},{new:true}));
+  const updated = await Delivery.findByIdAndUpdate(req.params.id, { status }, { new: true });
+  if (updated) {
+    await publishEvent('delivery.statusUpdated', updated);
+  }
+  res.json(updated);
 });
 
 router.delete('/:id', async (req, res) => { await Delivery.findByIdAndDelete(req.params.id); res.status(204).send(); });
