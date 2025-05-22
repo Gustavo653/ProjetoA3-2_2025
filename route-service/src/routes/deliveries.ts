@@ -15,6 +15,11 @@ router.get('/next/:driverId', async (req, res) => {
   res.json(d);
 });
 
+router.get('/:id', async (req, res) => {
+  const d = await Delivery.findById(req.params.id);
+  res.json(d);
+});
+
 router.post('/', async (req, res) => {
   const delivery = await Delivery.create(req.body);
   await publishEvent('delivery.created', delivery);

@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,13 +12,14 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./delivery-detail.component.css']
 })
 export class DeliveryDetailComponent implements OnInit {
-  delivery:any;
-  constructor(private route: ActivatedRoute, private api: ApiService){}
+  delivery: any;
 
-  async ngOnInit(){
+  constructor(private route: ActivatedRoute, private api: ApiService) {}
+
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    if(id){
-      this.delivery = await this.api.updateDelivery(id,{});
+    if (id) {
+      this.delivery = await this.api.getDelivery(id);
     }
   }
 }

@@ -1,9 +1,26 @@
-<nav>
-  <a routerLink="/drivers" routerLinkActive="active">Motoristas</a>
-  <a routerLink="/trucks" routerLinkActive="active">Caminhões</a>
-  <a routerLink="/deliveries" routerLinkActive="active">Entregas</a>
-  <span *ngIf="loggedIn()"> | <a (click)="logout()" style="cursor:pointer">Sair</a></span>
-</nav>
+<mat-toolbar color="primary">
+  <span class="app-title">Plataforma de Cargas</span>
+  <span class="spacer"></span>
+
+  <ng-container [ngSwitch]="role()">
+    <ng-container *ngSwitchCase="'driver'">
+      <a mat-button routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-button routerLink="/support" routerLinkActive="active">Suporte</a>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'operator'">
+      <a mat-button routerLink="/drivers" routerLinkActive="active">Motoristas</a>
+      <a mat-button routerLink="/trucks" routerLinkActive="active">Caminhões</a>
+      <a mat-button routerLink="/deliveries" routerLinkActive="active">Entregas</a>
+      <a mat-button routerLink="/monitor" routerLinkActive="active">Monitor</a>
+    </ng-container>
+  </ng-container>
+
+  <button mat-icon-button aria-label="Sair" (click)="logout()" *ngIf="loggedIn()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
 <div class="container">
   <router-outlet></router-outlet>
 </div>

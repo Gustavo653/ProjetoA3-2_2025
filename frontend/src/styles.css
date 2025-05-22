@@ -1,11 +1,33 @@
-body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;margin:0;padding:0}
-nav{background:#e60000;color:#fff;padding:.5rem}
-nav a{color:#fff;margin-right:1rem;text-decoration:none}
-nav a.active{font-weight:bold;text-decoration:underline}
-.container{padding:1rem}
-input,button{padding:.25rem .5rem;margin-right:.5rem}
-ul{list-style:none;padding:0}
-li{background:#fff;margin-bottom:.5rem;padding:.5rem;border-radius:4px}
+:root {
+  --bg:        #121212;
+  --surface:   #1e1e1e;
+  --primary:   #90caf9;
+  --accent:    #f48fb1;
+  --warn:      #ef5350;
+  --text:      #e0e0e0;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.mat-card,
+.mat-list-base .mat-list-item {
+  background: var(--surface);
+  color: var(--text);
+}
+.mat-toolbar.mat-primary {
+  background: #212121;
+  color: var(--text);
+}
+
+/* App utilitários */
+.spacer   { flex: 1 1 auto; }
+.app-title{ font-weight: 500; margin-left: .5rem; }
+
+.container{ padding: 1rem; }
