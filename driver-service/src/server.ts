@@ -6,13 +6,11 @@ import driversRouter from './routes/drivers.js';
 import trucksRouter from './routes/trucks.js';
 import authRouter from './routes/auth.js';
 import { collectDefaultMetrics, Registry } from 'prom-client';
-import { verifyToken } from './middleware/auth.js';
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(verifyToken);
 
 app.use('/auth', authRouter);
 app.use('/api/drivers', driversRouter);
