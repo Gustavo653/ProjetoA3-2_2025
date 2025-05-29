@@ -23,4 +23,22 @@ router.post('/login', async (req, res) => {
   res.json({ token, role: 'driver', userId: driver._id.toString() });
 });
 
+router.post('/register', async (req, res) => {
+  const { name, licenseNumber, cpf, registrationNumber, phone, password } = req.body;
+  if (!name || !licenseNumber || !password) {
+    return res.status(400).json({ message: 'Campos obrigatórios ausentes' });
+  }
+
+  const exists = await Driver.findOne({
+    $or: [{ cpf }, { registrationNumber }, { licenseNumber }],
+  });
+  if (exists) {
+    return res.status(409).json({ message: 'Motorista já cadastrado' });
+  }
+
+  const driver = await Driver.create({ name, licenseNumber, cpf, registrationNumber, phone, password });
+  const token = jwt.sign({ sub: driver._id.toString(), role: 'driver' }, process.env.JWT_SECRET!, { expiresIn: '1d' });
+  res.status(201).json({ token, role: 'driver', userId: driver._id.toString() });
+});
+
 export default router;
