@@ -1,84 +1,54 @@
-<h2>Cadastro de Motoristas</h2>
+<mat-card>
+  <h2>Motoristas</h2>
 
-<section class="form-grid">
-  <mat-form-field appearance="outline">
-    <mat-label>Nome</mat-label>
-    <input matInput [(ngModel)]="newDriver.name" name="name">
-  </mat-form-field>
+  <form (submit)="save()" class="form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput [(ngModel)]="driver.name" name="name" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>N° CNH</mat-label>
-    <input matInput [(ngModel)]="newDriver.licenseNumber" name="license">
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Nº CNH</mat-label>
+      <input matInput [(ngModel)]="driver.licenseNumber" name="license" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>CPF</mat-label>
-    <input matInput [(ngModel)]="newDriver.cpf" name="cpf">
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>CPF</mat-label>
+      <input matInput [(ngModel)]="driver.cpf" name="cpf" />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Matrícula</mat-label>
-    <input matInput [(ngModel)]="newDriver.registrationNumber" name="registrationNumber">
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Matrícula</mat-label>
+      <input matInput [(ngModel)]="driver.registrationNumber" name="registration" />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Telefone</mat-label>
-    <input matInput [(ngModel)]="newDriver.phone" name="phone">
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Telefone</mat-label>
+      <input matInput [(ngModel)]="driver.phone" name="phone" />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Tipo</mat-label>
-    <mat-select [(ngModel)]="newDriver.role" name="role" required>
-      <mat-option value="driver">Motorista</mat-option>
-      <mat-option value="operator">Operador</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo</mat-label>
+      <mat-select [(ngModel)]="driver.role" name="role" required>
+        <mat-option value="driver">Motorista</mat-option>
+        <mat-option value="operator">Operador</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" class="full" (click)="save()">Salvar</button>
-</section>
-
-<table mat-table [dataSource]="drivers" class="mat-elevation-z1 full">
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Nome</th>
-    <td mat-cell *matCellDef="let d">{{d.name}}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="license">
-    <th mat-header-cell *matHeaderCellDef>CNH</th>
-    <td mat-cell *matCellDef="let d">{{d.licenseNumber}}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="cpf">
-    <th mat-header-cell *matHeaderCellDef>CPF</th>
-    <td mat-cell *matCellDef="let d">{{d.cpf || '-'}}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="registration">
-    <th mat-header-cell *matHeaderCellDef>Matrícula</th>
-    <td mat-cell *matCellDef="let d">{{d.registrationNumber || '-'}}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="phone">
-    <th mat-header-cell *matHeaderCellDef>Telefone</th>
-    <td mat-cell *matCellDef="let d">{{d.phone || '-'}}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="role">
-    <th mat-header-cell *matHeaderCellDef>Tipo</th>
-    <td mat-cell *matCellDef="let d">
-      {{ d.role === 'driver' ? 'Motorista' : 'Operador' }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Ações</th>
-    <td mat-cell *matCellDef="let d">
-      <button mat-icon-button color="warn" (click)="remove(d.id!)">
-        <mat-icon>delete</mat-icon>
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit">
+        {{ editing ? 'Atualizar' : 'Salvar' }}
       </button>
-    </td>
-  </ng-container>
+      <button *ngIf="editing" mat-button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+  <mat-list>
+    <mat-list-item *ngFor="let d of drivers">
+      {{ d.name }} – CNH {{ d.licenseNumber }} – {{ d.role==='driver'?'Motorista':'Operador' }}
+      <span class="spacer"></span>
+      <button mat-icon-button color="primary" (click)="edit(d)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="remove(d.id!)"><mat-icon>delete</mat-icon></button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
