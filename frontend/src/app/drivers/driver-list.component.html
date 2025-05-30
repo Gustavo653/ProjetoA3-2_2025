@@ -1,4 +1,3 @@
-
 <h2>Cadastro de Motoristas</h2>
 
 <section class="form-grid">
@@ -25,6 +24,14 @@
   <mat-form-field appearance="outline">
     <mat-label>Telefone</mat-label>
     <input matInput [(ngModel)]="newDriver.phone" name="phone">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo</mat-label>
+    <mat-select [(ngModel)]="newDriver.role" name="role" required>
+      <mat-option value="driver">Motorista</mat-option>
+      <mat-option value="operator">Operador</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <button mat-raised-button color="primary" class="full" (click)="save()">Salvar</button>
@@ -56,10 +63,17 @@
     <td mat-cell *matCellDef="let d">{{d.phone || '-'}}</td>
   </ng-container>
 
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef>Tipo</th>
+    <td mat-cell *matCellDef="let d">
+      {{ d.role === 'driver' ? 'Motorista' : 'Operador' }}
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Ações</th>
     <td mat-cell *matCellDef="let d">
-      <button mat-icon-button color="warn" (click)="remove(d._id!)">
+      <button mat-icon-button color="warn" (click)="remove(d.id!)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

@@ -5,7 +5,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Motorista</mat-label>
       <mat-select [(ngModel)]="delivery.driverId" name="driverId" required>
-        <mat-option *ngFor="let d of drivers" [value]="d._id">
+        <mat-option *ngFor="let d of drivers" [value]="d.id">
           {{ d.name }}
         </mat-option>
       </mat-select>
@@ -14,7 +14,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Caminhão</mat-label>
       <mat-select [(ngModel)]="delivery.truckId" name="truckId" required>
-        <mat-option *ngFor="let t of trucks" [value]="t._id">
+        <mat-option *ngFor="let t of trucks" [value]="t.id">
           {{ t.plate }} – {{ t.model }}
         </mat-option>
       </mat-select>
@@ -54,7 +54,7 @@
       <button mat-icon-button color="primary" (click)="edit(d)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="delete(d._id)">
+      <button mat-icon-button color="warn" (click)="delete(d.id)">
         <mat-icon>delete</mat-icon>
       </button>
     </mat-list-item>

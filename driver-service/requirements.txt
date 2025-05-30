@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+odmantic
+motor
+passlib[bcrypt]
+pyjwt
+prometheus-client
+aio-pika
+aioredis

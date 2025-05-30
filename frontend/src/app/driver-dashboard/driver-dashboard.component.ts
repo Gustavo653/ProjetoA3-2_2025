@@ -29,7 +29,7 @@ export class DriverDashboardComponent implements OnInit {
 
   async update(status:string){
     if(!this.delivery) return;
-    await this.api.updateDeliveryStatus(this.delivery._id,status);
+    await this.api.updateDeliveryStatus(this.delivery.id,status);
     this.delivery.status = status;
   }
 }

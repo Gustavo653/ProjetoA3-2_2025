@@ -42,7 +42,7 @@ export class DeliveryListComponent implements OnInit {
 
   async create() {
     if (this.editing) {
-      await this.api.updateDelivery(this.delivery._id, this.delivery);
+      await this.api.updateDelivery(this.delivery.id, this.delivery);
     } else {
       await this.api.addDelivery(this.delivery);
     }

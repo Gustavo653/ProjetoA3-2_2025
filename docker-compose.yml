@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   redis:
     image: redis:7
@@ -26,8 +24,6 @@ services:
 
   driver-service:
     build: ./driver-service
-    env_file:
-      - ./driver-service/.env
     depends_on:
       - mongodb
       - rabbitmq
@@ -38,8 +34,6 @@ services:
 
   route-service:
     build: ./route-service
-    env_file:
-      - ./route-service/.env
     depends_on:
       - mongodb
       - rabbitmq

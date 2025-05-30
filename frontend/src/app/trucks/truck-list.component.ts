@@ -31,7 +31,7 @@ export class TruckListComponent implements OnInit {
 
   async save() {
     if (this.editing) {
-      await this.api.updateTruck(this.truck._id, this.truck);
+      await this.api.updateTruck(this.truck.id, this.truck);
     } else {
       await this.api.addTruck(this.truck);
     }

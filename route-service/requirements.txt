@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+motor
+odmantic
+python-dotenv
+pyjwt
+prometheus-client
+aio-pika

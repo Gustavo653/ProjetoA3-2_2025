@@ -1,9 +1,8 @@
-FROM node:20-alpine
+FROM python:3.10-slim
 
 WORKDIR /app
-COPY package*.json tsconfig.json ./
-RUN npm install -g typescript && npm install
-COPY src ./src
-RUN npm run build
-EXPOSE 3000
-CMD ["node", "dist/server.js"]
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000"]
