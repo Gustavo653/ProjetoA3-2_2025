@@ -48,5 +48,9 @@ class TruckIn(TruckBase):
 class TruckOut(TruckBase):
     id: str
 
+    @validator("id", pre=True)
+    def id_to_str(cls, v):
+        return str(v)
+
     class Config:
         orm_mode = True
