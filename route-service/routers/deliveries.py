@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
 from typing import List
 from odmantic import ObjectId
-
 from database import engine
 from models import Delivery, Status
 from schemas import DeliveryIn, DeliveryOut
@@ -67,7 +66,7 @@ async def update_delivery(
 @router.put("/{id}/status", response_model=DeliveryOut)
 async def update_status(
     id: str,
-    status: Status,
+    status: Status = Body(..., embed=True),
     _=Depends(get_token_data)
 ):
     delivery = await engine.find_one(Delivery, Delivery.id == ObjectId(id))

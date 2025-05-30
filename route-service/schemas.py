@@ -1,6 +1,7 @@
 from pydantic import BaseModel, validator
 from enum import Enum
-from typing import Optional, List
+from typing import Optional
+from odmantic import ObjectId
 
 class Status(str, Enum):
     pending   = "pending"
@@ -23,6 +24,12 @@ class DeliveryOut(DeliveryBase):
     @validator("id", pre=True)
     def id_to_str(cls, v):
         return str(v)
-
+    
+    @validator("driver_id", "truck_id", pre=True)
+    def objid_to_str(cls, v):
+        return str(v)
+    
     class Config:
         orm_mode = True
+        use_enum_values = True
+        json_encoders = {ObjectId: str}
