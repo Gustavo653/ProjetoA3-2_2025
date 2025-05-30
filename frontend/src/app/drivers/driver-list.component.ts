@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -24,12 +23,14 @@ import { ApiService } from '../services/api.service';
 })
 export class DriverListComponent implements OnInit {
   drivers: any[] = [];
-  driver: any = { role: 'driver' };
+  driver: any = { role: 'driver', password: '' };
   editing = false;
 
   constructor(private api: ApiService) { }
 
-  async ngOnInit() { this.drivers = await this.api.getDrivers(); }
+  async ngOnInit() {
+    this.drivers = await this.api.getDrivers();
+  }
 
   async save() {
     if (this.editing) {
@@ -40,8 +41,13 @@ export class DriverListComponent implements OnInit {
     this.reset();
   }
 
-  edit(d: any) { this.driver = { ...d }; this.editing = true; }
-  cancel() { this.reset(); }
+  edit(d: any) {
+    this.driver = { ...d };
+    this.editing = true;
+  }
+  cancel() {
+    this.reset();
+  }
 
   async remove(id: string) {
     await this.api.deleteDriver(id);
@@ -49,9 +55,11 @@ export class DriverListComponent implements OnInit {
   }
 
   private reset() {
-    this.driver = { role: 'driver' };
+    this.driver = { role: 'driver', password: '' };
     this.editing = false;
     this.refresh();
   }
-  private async refresh() { this.drivers = await this.api.getDrivers(); }
+  private async refresh() {
+    this.drivers = await this.api.getDrivers();
+  }
 }

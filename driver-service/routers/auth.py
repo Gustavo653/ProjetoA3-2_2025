@@ -49,6 +49,6 @@ async def register(
         if await engine.find_one(User, {"$or": checks}):
             raise HTTPException(409, "User already exists")
     hashed = pwd.hash(user_in.password)
-    user = User(**user_in.dict(), password=hashed)
+    user = User(**user_in.dict(exclude={"password"}), password=hashed)
     await engine.save(user)
     return user

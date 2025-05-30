@@ -28,6 +28,11 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" [(ngModel)]="driver.password" name="password" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
       <mat-select [(ngModel)]="driver.role" name="role" required>
         <mat-option value="driver">Motorista</mat-option>
@@ -45,7 +50,7 @@
 
   <mat-list>
     <mat-list-item *ngFor="let d of drivers">
-      {{ d.name }} – CNH {{ d.licenseNumber }} – {{ d.role==='driver'?'Motorista':'Operador' }}
+      {{ d.name }} – CNH {{ d.license_number }} – {{ d.role==='driver'?'Motorista':'Operador' }}
       <span class="spacer"></span>
       <button mat-icon-button color="primary" (click)="edit(d)"><mat-icon>edit</mat-icon></button>
       <button mat-icon-button color="warn" (click)="remove(d.id!)"><mat-icon>delete</mat-icon></button>
