@@ -1,6 +1,5 @@
-
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,10 +21,30 @@ export class LoginComponent {
   identifier = '';
   password = '';
   error = '';
+  private errorTimeout: any;
+
   constructor(private auth: AuthService) { }
 
-  async onSubmit() {
-    try { await this.auth.login(this.identifier, this.password); }
-    catch { this.error = 'Falha no login'; }
+  async onSubmit(form: NgForm) {
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
+    try {
+      await this.auth.login(this.identifier, this.password);
+      this.error = '';
+      // aqui pode redirecionar ou resetar form
+    } catch {
+      this.error = 'Falha no login';
+      this.clearErrorAfterTimeout();
+    }
+  }
+
+  clearErrorAfterTimeout() {
+    if (this.errorTimeout) clearTimeout(this.errorTimeout);
+    this.errorTimeout = setTimeout(() => {
+      this.error = '';
+    }, 4000);
   }
 }

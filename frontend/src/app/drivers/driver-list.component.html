@@ -1,45 +1,88 @@
 <mat-card>
   <h2>Motoristas</h2>
 
-  <form (submit)="save()" class="form-grid">
+  <form #formRef="ngForm" (ngSubmit)="forceSubmit(formRef)" novalidate class="form-grid">
+
+    <!-- NOME -->
     <mat-form-field appearance="fill">
       <mat-label>Nome</mat-label>
-      <input matInput [(ngModel)]="driver.name" name="name" required />
+      <input matInput [(ngModel)]="driver.name" name="name" required minlength="3" #nameRef="ngModel" />
+      <mat-error *ngIf="nameRef.invalid && nameRef.touched">
+        <span *ngIf="nameRef.errors?.['required']">Nome é obrigatório.</span>
+        <span *ngIf="nameRef.errors?.['minlength']">Nome deve ter pelo menos 3 letras.</span>
+      </mat-error>
     </mat-form-field>
 
+    <!-- CNH -->
     <mat-form-field appearance="fill">
       <mat-label>Nº CNH</mat-label>
-      <input matInput [(ngModel)]="driver.licenseNumber" name="license" required />
+      <input matInput [(ngModel)]="driver.licenseNumber" name="license" required pattern="^\d{11}$" #cnhRef="ngModel" />
+      <mat-error *ngIf="cnhRef.invalid && cnhRef.touched">
+        <span *ngIf="cnhRef.errors?.['required']">CNH é obrigatória.</span>
+        <span *ngIf="cnhRef.errors?.['pattern']">CNH deve ter 11 dígitos numéricos.</span>
+      </mat-error>
     </mat-form-field>
 
+    <!-- CPF -->
     <mat-form-field appearance="fill">
       <mat-label>CPF</mat-label>
-      <input matInput [(ngModel)]="driver.cpf" name="cpf" />
+      <input matInput [(ngModel)]="driver.cpf" name="cpf" required pattern="^\d{3}\.\d{3}\.\d{3}-\d{2}$" #cpfRef="ngModel" />
+      <mat-error *ngIf="cpfRef.invalid && cpfRef.touched">
+        <span *ngIf="cpfRef.errors?.['required']">CPF é obrigatório.</span>
+        <span *ngIf="cpfRef.errors?.['pattern']">CPF deve estar no formato 000.000.000-00.</span>
+      </mat-error>
     </mat-form-field>
 
+    <!-- Matrícula -->
     <mat-form-field appearance="fill">
       <mat-label>Matrícula</mat-label>
       <input matInput [(ngModel)]="driver.registrationNumber" name="registration" />
     </mat-form-field>
 
+    <!-- Telefone -->
     <mat-form-field appearance="fill">
       <mat-label>Telefone</mat-label>
-      <input matInput [(ngModel)]="driver.phone" name="phone" />
+      <input
+        matInput
+        [(ngModel)]="driver.phone"
+        name="phone"
+        pattern="^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$"
+        #phoneRef="ngModel"
+      />
+      <mat-error *ngIf="phoneRef.invalid && phoneRef.touched">
+        <span *ngIf="phoneRef.errors?.['pattern']">Telefone inválido. Use formato (99) 99999-9999.</span>
+      </mat-error>
     </mat-form-field>
 
+    <!-- SENHA -->
     <mat-form-field appearance="fill">
       <mat-label>Senha</mat-label>
-      <input matInput type="password" [(ngModel)]="driver.password" name="password" required />
+      <input
+        matInput
+        type="password"
+        [(ngModel)]="driver.password"
+        name="password"
+        required
+        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"
+        #passRef="ngModel"
+      />
+      <mat-error *ngIf="passRef.invalid && passRef.touched">
+        <span *ngIf="passRef.errors?.['required']">Senha é obrigatória.</span>
+        <span *ngIf="passRef.errors?.['pattern']">Mínimo 8 caracteres, com letras e números.</span>
+      </mat-error>
     </mat-form-field>
 
+    <!-- TIPO -->
     <mat-form-field appearance="fill">
       <mat-label>Tipo</mat-label>
-      <mat-select [(ngModel)]="driver.role" name="role" required>
+      <mat-select [(ngModel)]="driver.role" name="role" required #roleRef="ngModel">
         <mat-option value="driver">Motorista</mat-option>
         <mat-option value="operator">Operador</mat-option>
       </mat-select>
+      <mat-error *ngIf="roleRef.invalid && roleRef.touched">Tipo é obrigatório.</mat-error>
     </mat-form-field>
 
+    <!-- BOTÕES -->
     <div class="button-row">
       <button mat-raised-button color="primary" type="submit">
         {{ editing ? 'Atualizar' : 'Salvar' }}
@@ -50,10 +93,14 @@
 
   <mat-list>
     <mat-list-item *ngFor="let d of drivers">
-      {{ d.name }} – CNH {{ d.license_number }} – {{ d.role==='driver'?'Motorista':'Operador' }}
+      {{ d.name }} – CNH {{ d.licenseNumber }} – {{ d.role === 'driver' ? 'Motorista' : 'Operador' }}
       <span class="spacer"></span>
-      <button mat-icon-button color="primary" (click)="edit(d)"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button color="warn" (click)="remove(d.id!)"><mat-icon>delete</mat-icon></button>
+      <button mat-icon-button color="primary" (click)="edit(d)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="remove(d.id!)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </mat-list-item>
   </mat-list>
 </mat-card>

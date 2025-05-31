@@ -18,16 +18,25 @@
           {{ t.plate }} – {{ t.model }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="submitted && !isValidSelect(delivery.truckId)">
+        Caminhão é obrigatório.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Origem</mat-label>
       <input matInput [(ngModel)]="delivery.origin" name="origin" required />
+      <mat-error *ngIf="submitted && !isValidText(delivery.origin)">
+        Origem deve ter pelo menos 3 letras e não pode conter apenas números.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Destino</mat-label>
       <input matInput [(ngModel)]="delivery.destination" name="destination" required />
+      <mat-error *ngIf="submitted && !isValidText(delivery.destination)">
+        Destino deve ter pelo menos 3 letras e não pode conter apenas números.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">

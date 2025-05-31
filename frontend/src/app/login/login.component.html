@@ -1,19 +1,52 @@
-
 <mat-card class="login-card">
   <h1>Plataforma de Cargas</h1>
 
-  <form (submit)="onSubmit()" class="login-form">
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate class="login-form">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Matrícula ou CPF</mat-label>
-      <input matInput [(ngModel)]="identifier" name="identifier" required />
+      <input
+        matInput
+        [(ngModel)]="identifier"
+        name="identifier"
+        #identifierRef="ngModel"
+        required
+        minlength="3"
+        maxlength="20"
+      />
+      <mat-error *ngIf="identifierRef.invalid && identifierRef.touched">
+        <span *ngIf="identifierRef.errors?.['required']">Campo obrigatório.</span>
+        <span *ngIf="identifierRef.errors?.['minlength']">Mínimo 3 caracteres.</span>
+        <span *ngIf="identifierRef.errors?.['maxlength']">Máximo 20 caracteres.</span>
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Senha</mat-label>
-      <input matInput type="password" [(ngModel)]="password" name="password" required />
+      <input
+        matInput
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        #passwordRef="ngModel"
+        required
+        minlength="5"
+      />
+      <mat-error *ngIf="passwordRef.invalid && passwordRef.touched">
+        <span *ngIf="passwordRef.errors?.['required']">Senha é obrigatória.</span>
+        <span *ngIf="passwordRef.errors?.['minlength']">Mínimo 6 caracteres.</span>
+      </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="full-width">Entrar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="full-width"
+      [disabled]="loginForm.invalid"
+      type="submit"
+    >
+      Entrar
+    </button>
+
     <p *ngIf="error" class="error">{{ error }}</p>
   </form>
 </mat-card>

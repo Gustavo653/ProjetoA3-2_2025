@@ -27,10 +27,13 @@ export class DeliveryListComponent implements OnInit {
   trucks: any[] = [];
   delivery: any = { status: 'pending' };
   editing = false;
+  submitted = false;
 
   constructor(private api: ApiService) {}
 
-  async ngOnInit() { await this.load(); }
+  async ngOnInit() {
+    await this.load();
+  }
 
   private async load() {
     [this.deliveries, this.drivers, this.trucks] = await Promise.all([
@@ -41,17 +44,47 @@ export class DeliveryListComponent implements OnInit {
   }
 
   async create() {
-    if (this.editing) {
-      await this.api.updateDelivery(this.delivery.id, this.delivery);
-    } else {
-      await this.api.addDelivery(this.delivery);
+    this.submitted = true;
+
+    if (
+      this.isValidText(this.delivery.origin) &&
+      this.isValidText(this.delivery.destination) &&
+      this.isValidSelect(this.delivery.truckId)
+    ) {
+      if (this.editing) {
+        await this.api.updateDelivery(this.delivery.id, this.delivery);
+      } else {
+        await this.api.addDelivery(this.delivery);
+      }
+      this.delivery = { status: 'pending' };
+      this.editing = false;
+      this.submitted = false;
+      await this.load();
     }
-    this.delivery = { status: 'pending' };
-    this.editing = false;
-    await this.load();
   }
 
-  edit(d: any) { this.delivery = { ...d }; this.editing = true; }
-  cancel()   { this.delivery = { status: 'pending' }; this.editing = false; }
-  async delete(id: string) { await this.api.deleteDelivery(id); await this.load(); }
+  isValidText(value: string): boolean {
+    return !!value && value.trim().length >= 3 && !/^\d+$/.test(value);
+  }
+
+  isValidSelect(value: any): boolean {
+    return value !== null && value !== undefined;
+  }
+
+  edit(d: any) {
+    this.delivery = { ...d };
+    this.editing = true;
+    this.submitted = false;
+  }
+
+  cancel() {
+    this.delivery = { status: 'pending' };
+    this.editing = false;
+    this.submitted = false;
+  }
+
+  async delete(id: string) {
+    await this.api.deleteDelivery(id);
+    await this.load();
+  }
 }

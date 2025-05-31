@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
+import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +28,7 @@ export class DriverListComponent implements OnInit {
   editing = false;
 
   constructor(private api: ApiService) { }
+
 
   async ngOnInit() {
     this.drivers = await this.api.getDrivers();
@@ -62,4 +64,9 @@ export class DriverListComponent implements OnInit {
   private async refresh() {
     this.drivers = await this.api.getDrivers();
   }
+  forceSubmit(form: NgForm) {
+  console.log('Forçando submit do formulário (mesmo inválido)');
+  this.save(); // já deve existir
+}
+
 }
