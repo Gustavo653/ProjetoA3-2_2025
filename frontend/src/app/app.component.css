@@ -1,0 +1,43 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.mobile-toggle {
+  display: none;
+}
+
+.desktop-menu a {
+  margin-left: 10px;
+}
+
+/* Centraliza o título e espaça os botões */
+.app-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* MENU MOBILE: aparece só em telas pequenas */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: inline-flex;
+  }
+
+  .mobile-menu {
+    width: 250px;
+    padding: 10px;
+  }
+
+  .mobile-menu a {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
