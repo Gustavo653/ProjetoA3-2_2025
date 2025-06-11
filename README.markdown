@@ -52,7 +52,7 @@ Este projeto consiste em um sistema de gerenciamento de entregas e monitoramento
 ## Contribuidores
 - Gustavo Henrique da Silva - 152210460
 - Felipe Girardi Macedo - 152220418
-- Cauã Leão - 1523126577
+- Cauã Leão - 152312577
 
 ## Instituição
 - UNISOCIESC - Blumenau
